@@ -1,0 +1,23 @@
+{
+  "name": "tictactoejs",
+  "version": "0.0.1",
+  "description": "A tic tac toe game in js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/voiceinthedark/tictactoejs.git"
+  },
+  "keywords": [
+    "javascript",
+    "game"
+  ],
+  "author": "Firas Abbas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/voiceinthedark/tictactoejs/issues"
+  },
+  "homepage": "https://github.com/voiceinthedark/tictactoejs#readme"
+}
