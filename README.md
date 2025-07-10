@@ -1,2 +1,22 @@
-# tictactoejs
+# tictactoejs (Odin project Javascript course)
+
 A Tic tac toe game in javascript
+
+## About the game
+
+This is part of the odin project curriculum, the javascript path.
+The game will emphasize seperation of concerns by seperating view
+from logic and model.
+To that end we will be relying on javascript module and factory patterns.
+
+## Roadmap
+
+- [ ] Create a gameboard module
+- [ ] Create a player factory
+- [ ] Create a game module
+- [ ] Create a working console game version
+- [ ] Create a display module
+- [ ] Create a game loop
+- [ ] Add UI elements for player names
+- [ ] Add a computer player
+- [ ] Add a computer player with difficulty levels
