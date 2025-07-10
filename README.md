@@ -11,10 +11,10 @@ To that end we will be relying on javascript module and factory patterns.
 
 ## Roadmap
 
-- [ ] Create a gameboard module
-- [ ] Create a player factory
-- [ ] Create a game module
-- [ ] Create a working console game version
+- [x] Create a gameboard module
+- [x] Create a player factory
+- [x] Create a game module
+- [x] Create a working console game version
 - [ ] Create a display module
 - [ ] Create a game loop
 - [ ] Add UI elements for player names

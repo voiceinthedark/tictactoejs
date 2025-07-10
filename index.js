@@ -84,8 +84,6 @@ const gameController = (() => {
         } else {
             console.log(`Cell ${cellIdx} is already occupied`)
         }
-
-
     };
 
     const initializeGame = () => {
@@ -94,14 +92,24 @@ const gameController = (() => {
         console.log('Game initialized');
     }
 
+    // Reset the game state
+    const resetGame = () => {
+        gameBoard.initializeGameState();
+        gameStatus = true;
+        console.log('Game reset');
+    };
+
     return {
         initializeGame,
         gameStatus,
-        makeAMove
+        makeAMove,
+        resetGame
     };
 })();
 
 function printToConsole() {
+    // Print every 3 cells on a new line 
+    console.log('Current Game State:');
     console.log(gameBoard.gameState.map(cell => cell.getValue()).join(' | '));
 }
 
@@ -110,9 +118,17 @@ const displayController = (() => {
 
 })();
 
+// Player Factory function, contains player token and name
 const playerFactory = () => {
-    const player = 'X';
-    const bot = 'O';
+
+    const player = {
+        name: 'Player X',
+        token: 'X',
+    }
+    const bot = {
+        name: 'Bot O',
+        token: 'O',
+    };
     return {
         player,
         bot
@@ -123,4 +139,8 @@ const playerFactory = () => {
 // Init Game
 gameBoard.initializeGameState();
 gameController.initializeGame();
-gameBoard.makeAMove(playerFactory().player, 0);
+gameController.makeAMove(playerFactory().player.token, 0);
+gameController.makeAMove(playerFactory().player.token, 0); // Should print Cell 0 already occupied
+gameController.makeAMove(playerFactory().bot.token, 2);
+gameController.makeAMove(playerFactory().player.token, 3);
+gameController.makeAMove(playerFactory().player.token, 6); // Player X wins
