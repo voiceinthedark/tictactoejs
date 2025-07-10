@@ -17,3 +17,60 @@ body {
     font-size: 1.5rem;
 }
 
+h1,
+h2,
+h3{
+    font-weight: 600;
+}
+
+/* CONTAINER */
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* BOARD */
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 400px;
+    height: 400px;
+}
+
+.cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid black;
+    height: 150px;
+    width: 150px;
+    line-height: 150px;
+    font-size: 150px;
+}
+
+#cell1,
+#cell2,
+#cell3{
+    border-top: 0;
+}
+
+#cell7,
+#cell8,
+#cell9 {
+    border-bottom: 0;
+}
+
+#cell1,
+#cell4,
+#cell7{
+    border-left: 0;
+}
+
+#cell3,
+#cell6,
+#cell9{
+    border-right: 0;
+}
