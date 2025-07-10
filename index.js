@@ -1,7 +1,7 @@
 /* * * * * * * * * * *
  * Tic Tac Toe Game  *
  * * * * * * *  * * */
-
+import player from './player.js';
 
 /* Game Board function 
  *
@@ -74,6 +74,7 @@ function Cell() {
 
 const gameController = (() => {
     let gameStatus = true; // True for running, false if done
+    let currentPlayer = 'X'; // Default player
 
     const makeAMove = (player, cellIdx) => {
         if (gameBoard.gameState[cellIdx].getValue() === '') {
@@ -89,6 +90,9 @@ const gameController = (() => {
     const initializeGame = () => {
         gameBoard.gameState.forEach(cell => cell.setValue(''));
         gameStatus = true;
+        let player1 = new player('Player X', 'X');
+        let player2 = new player('Player O', 'O');
+        currentPlayer = player1.getToken();
         console.log('Game initialized');
     }
 
@@ -99,9 +103,19 @@ const gameController = (() => {
         console.log('Game reset');
     };
 
+    // Switch player input
+    const switchPlayer = () => {
+        if (currentPlayer === 'X') {
+            currentPlayer = 'O';
+        } else {
+            currentPlayer = 'X';
+        }
+    }
+
     return {
         initializeGame,
         gameStatus,
+        currentPlayer,
         makeAMove,
         resetGame
     };
@@ -114,33 +128,38 @@ function printToConsole() {
 }
 
 const displayController = (() => {
+    const boardElement = document.querySelector('.board');
+    // get the board children
+    const boardCells = boardElement.childNodes;
+    boardCells.forEach((cell, index) => {
+        cell.addEventListener('click', () => {
+            const currentPlayerToken = gameController.currentPlayer;
+            index = +cell.dataset.cellId - 1;
+            console.log(`Player ${currentPlayerToken} clicked cell ${index}`);
+            gameController.makeAMove(currentPlayerToken, index);
+            console.log(`Cell ${index} updated with value ${gameBoard.gameState[index].getValue()}`);
+            cell.textContent = gameBoard.gameState[index].getValue();
+        });
+    });
 
 
 })();
 
-// Player Factory function, contains player token and name
-const playerFactory = () => {
-
-    const player = {
-        name: 'Player X',
-        token: 'X',
-    }
-    const bot = {
-        name: 'Bot O',
-        token: 'O',
-    };
-    return {
-        player,
-        bot
-    };
-};
+window.onload = () => {
+    gameBoard.initializeGameState();
+    gameController.initializeGame();
 
 
-// Init Game
-gameBoard.initializeGameState();
-gameController.initializeGame();
-gameController.makeAMove(playerFactory().player.token, 0);
-gameController.makeAMove(playerFactory().player.token, 0); // Should print Cell 0 already occupied
-gameController.makeAMove(playerFactory().bot.token, 2);
-gameController.makeAMove(playerFactory().player.token, 3);
-gameController.makeAMove(playerFactory().player.token, 6); // Player X wins
+}
+
+// let player1 = new player('Player X', 'X');
+// let player2 = new player('Player O', 'O');
+
+// // Init Game
+// gameBoard.initializeGameState();
+// gameController.initializeGame();
+// gameController.makeAMove(player1.getToken(), 0);
+// gameController.makeAMove(player1.getToken(), 0); // Should print Cell 0 already occupied
+// gameController.makeAMove(player2.getToken(), 2);
+// gameController.makeAMove(player1.getToken(), 3);
+// gameController.makeAMove(player1.getToken(), 6); // Player X wins
