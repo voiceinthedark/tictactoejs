@@ -11,6 +11,7 @@ import player from './player.js';
  * */
 const gameBoard = (() => {
     const gameState = ['', '', '', '', '', '', '', '', ''];
+    let gameStatus = true;
 
     // Initialize gameState with Cell objects
     const initializeGameState = () => {
@@ -39,15 +40,17 @@ const gameBoard = (() => {
                 gameState[a].getValue() === gameState[b].getValue() &&
                 gameState[a].getValue() === gameState[c].getValue()) {
                 console.log(`Player ${gameState[a].getValue()} wins!`);
-                return;
+                return gameStatus = false;
             }
         }
+        return gameStatus = true; // Game continues if no winner found
     }
 
 
 
     return {
         gameState,
+        gameStatus,
         checkGameStatus,
         initializeGameState
     };
@@ -74,13 +77,20 @@ function Cell() {
 
 const gameController = (() => {
     let gameStatus = true; // True for running, false if done
-    let currentPlayer = 'X'; // Default player
+    let currentPlayer; // Default player
 
     const makeAMove = (player, cellIdx) => {
         if (gameBoard.gameState[cellIdx].getValue() === '') {
             gameBoard.gameState[cellIdx].setValue(player);
-            printToConsole();
-            gameBoard.checkGameStatus();
+            // printToConsole();
+            gameStatus = gameBoard.checkGameStatus();
+            if (gameStatus) {
+                console.log(`Player ${player} made a move at cell ${cellIdx}`);
+                switchPlayer();
+            } else {
+                console.log(`Game Over! Player ${player} wins!`);
+            }
+
 
         } else {
             console.log(`Cell ${cellIdx} is already occupied`)
@@ -105,6 +115,7 @@ const gameController = (() => {
 
     // Switch player input
     const switchPlayer = () => {
+        console.log(`Switching player from ${currentPlayer}`);
         if (currentPlayer === 'X') {
             currentPlayer = 'O';
         } else {
@@ -112,28 +123,33 @@ const gameController = (() => {
         }
     }
 
+    // New method to get the current player
+    const getCurrentPlayer = () => {
+        return currentPlayer;
+    };
+
     return {
         initializeGame,
         gameStatus,
-        currentPlayer,
         makeAMove,
-        resetGame
+        resetGame,
+        getCurrentPlayer,
     };
 })();
 
 function printToConsole() {
-    // Print every 3 cells on a new line 
     console.log('Current Game State:');
     console.log(gameBoard.gameState.map(cell => cell.getValue()).join(' | '));
 }
 
 const displayController = (() => {
     const boardElement = document.querySelector('.board');
-    // get the board children
     const boardCells = boardElement.childNodes;
     boardCells.forEach((cell, index) => {
         cell.addEventListener('click', () => {
-            const currentPlayerToken = gameController.currentPlayer;
+            // Use the getter method
+            const currentPlayerToken = gameController.getCurrentPlayer();
+            console.log(`Current Player: ${currentPlayerToken}`);
             index = +cell.dataset.cellId - 1;
             console.log(`Player ${currentPlayerToken} clicked cell ${index}`);
             gameController.makeAMove(currentPlayerToken, index);
@@ -148,7 +164,6 @@ const displayController = (() => {
 window.onload = () => {
     gameBoard.initializeGameState();
     gameController.initializeGame();
-
 
 }
 
