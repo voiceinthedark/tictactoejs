@@ -15,7 +15,7 @@ To that end we will be relying on javascript module and factory patterns.
 - [x] Create a player factory
 - [x] Create a game module
 - [x] Create a working console game version
-- [ ] Create a display module
+- [x] Create a display module
 - [ ] Create a game loop
 - [ ] Add UI elements for player names
 - [ ] Add a computer player

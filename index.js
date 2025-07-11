@@ -86,17 +86,21 @@ function Cell() {
 const gameController = (() => {
   let gameStatus = true; // True for running, false if done
   let currentPlayer; // Default player
+  const player1 = new player('Player X', 'X');
+  const player2 = new player('Player O', 'O');
 
   const makeAMove = (player, cellIdx) => {
     if (gameBoard.getBoard()[cellIdx].getValue() === '') {
-      gameBoard.getBoard()[cellIdx].setValue(player);
+      gameBoard.getBoard()[cellIdx].setValue(player.getToken());
       // printToConsole();
       gameStatus = gameBoard.checkGameStatus();
-      if (gameStatus) {
-        console.log(`Player ${player} made a move at cell ${cellIdx}`);
-        switchPlayer();
+      if (!gameStatus && gameBoard.getBoard().every(cell => cell.getValue() !== '')) {
+        console.log(('Draw'));
+      } else if (gameStatus) {
+        console.log(`Player ${player.getName()} made a move at cell ${cellIdx}`);
+        switchPlayer(player);
       } else {
-        console.log(`Game Over! Player ${player} wins!`);
+        console.log(`Game Over! Player ${player.getName()} wins!`);
       }
     } else {
       console.log(`Cell ${cellIdx} is already occupied`)
@@ -106,9 +110,7 @@ const gameController = (() => {
   const initializeGame = () => {
     gameBoard.getBoard().forEach(cell => cell.setValue(''));
     gameStatus = true;
-    let player1 = new player('Player X', 'X');
-    let player2 = new player('Player O', 'O');
-    currentPlayer = player1.getToken();
+    currentPlayer = player1;
     console.log('Game initialized');
   }
 
@@ -120,12 +122,12 @@ const gameController = (() => {
   };
 
   // Switch player input
-  const switchPlayer = () => {
-    console.log(`Switching player from ${currentPlayer}`);
-    if (currentPlayer === 'X') {
-      currentPlayer = 'O';
+  const switchPlayer = (player) => {
+    console.log(`Switching player from ${currentPlayer.getName()}`);
+    if (currentPlayer == player1) {
+      currentPlayer = player2;
     } else {
-      currentPlayer = 'X';
+      currentPlayer = player1;
     }
   }
 
@@ -138,11 +140,21 @@ const gameController = (() => {
     return gameStatus;
   }
 
+  const setPlayer1Name = (name) =>{
+    player1.changeName(name);
+  }
+
+  const setPlayer2Name = (name) => {
+    player2.changeName(name);
+  }
+
   return {
     initializeGame,
     getGameStatus,
     makeAMove,
     resetGame,
+    setPlayer1Name,
+    setPlayer2Name,
     getCurrentPlayer,
   };
 })();
@@ -155,13 +167,13 @@ function printToConsole() {
 const displayController = (() => {
   const disableBoard = (items) => {
     items.forEach(item => {
-      item.removeEventListener('click', () => {});
+      item.removeEventListener('click', () => { });
       item.setAttribute('disabled', true);
     });
   }
 
   // reset the game board
-const resetBoard = () => {
+  const resetBoard = () => {
     const boardElement = document.querySelector('.board');
     const outputElement = document.querySelector('.output');
     const outputList = outputElement.querySelector('ul');
@@ -186,22 +198,22 @@ const resetBoard = () => {
   const boardCells = Array.from(boardElement.children);
   boardCells.forEach((cell, index) => {
     cell.addEventListener('click', () => {
-      const currentPlayerToken = gameController.getCurrentPlayer();
-      console.log(`Current Player: ${currentPlayerToken}`);
+      const currentPlayer = gameController.getCurrentPlayer();
+      console.log(`Current Player: ${currentPlayer.getName()}`);
       index = +cell.dataset.cellId - 1;
       const outputListItem = document.createElement('li');
       // outputListItem.textContent = `Player ${currentPlayerToken} clicked cell ${index + 1}`;
       // outputList.appendChild(outputListItem);
-      console.log(`Player ${currentPlayerToken} clicked cell ${index}`);
-      gameController.makeAMove(currentPlayerToken, index);
+      console.log(`Player ${currentPlayer.getName()} clicked cell ${index}`);
+      gameController.makeAMove(currentPlayer, index);
       console.log(`Cell ${index} updated with value ${gameBoard.getBoard()[index].getValue()}`);
       cell.textContent = gameBoard.getBoard()[index].getValue();
-      outputListItem.textContent = `Now it's Player ${gameController.getCurrentPlayer()}'s turn`;
+      outputListItem.textContent = `Now it's Player ${gameController.getCurrentPlayer().getName()}'s turn`;
       outputList.appendChild(outputListItem);
       outputElement.scrollTop = outputElement.scrollHeight;
       if (!gameBoard.getGameStatus()) {
         const gameOverItem = document.createElement('li');
-        gameOverItem.textContent = `Game Over! Player ${currentPlayerToken} wins!`;
+        gameOverItem.textContent = `Game Over! Player ${currentPlayer.getName()} wins!`;
         outputList.appendChild(gameOverItem);
         outputElement.scrollTop = outputElement.scrollHeight;
         disableBoard(boardCells);
@@ -210,8 +222,21 @@ const resetBoard = () => {
   })
 })();
 
+
+const player1Input = document.querySelector('#player1-input');
+const player2Input = document.querySelector('#player2-input');
+
+player1Input.addEventListener('input', (e) => {
+  const player1Name = e.target.value;
+  gameController.setPlayer1Name(player1Name);
+});
+player2Input.addEventListener('input', (e) => {
+  const player2Name = e.target.value;
+  gameController.setPlayer2Name(player2Name);
+});
+
+
 window.onload = () => {
   gameBoard.initializeGameState();
   gameController.initializeGame();
-
 }

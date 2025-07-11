@@ -2,47 +2,51 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic Tac Toe JS</title>
-    <script type="module" src="index.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="./style.css" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe JS</title>
+  <script type="module" src="index.js" defer></script>
+  <link rel="stylesheet" type="text/css" href="./style.css" />
 </head>
 
 <body>
-    <main class="container">
-        <h1>TicTacToeJs</h1>
-        <div class="board">
-            <button id="cell1" data-cell-id="1" class="cell"></button>
-            <button id="cell2" data-cell-id="2" class="cell"></button>
-            <button id="cell3" data-cell-id="3" class="cell"></button>
-            <button id="cell4" data-cell-id="4" class="cell"></button>
-            <button id="cell5" data-cell-id="5" class="cell"></button>
-            <button id="cell6" data-cell-id="6" class="cell"></button>
-            <button id="cell7" data-cell-id="7" class="cell"></button>
-            <button id="cell8" data-cell-id="8" class="cell"></button>
-            <button id="cell9" data-cell-id="9" class="cell"></button>
+  <main class="container">
+    <h1>TicTacToeJs</h1>
+    <section class="header">
+      <input type="text" id="player1-input" class="player-name" placeholder="Player 1" value="Player 1" />
+      <input type="text" id="player2-input" class="player-name" placeholder="Player 2" value="Player 2" />
+    </section>
+    <div class="board">
+      <button id="cell1" data-cell-id="1" class="cell"></button>
+      <button id="cell2" data-cell-id="2" class="cell"></button>
+      <button id="cell3" data-cell-id="3" class="cell"></button>
+      <button id="cell4" data-cell-id="4" class="cell"></button>
+      <button id="cell5" data-cell-id="5" class="cell"></button>
+      <button id="cell6" data-cell-id="6" class="cell"></button>
+      <button id="cell7" data-cell-id="7" class="cell"></button>
+      <button id="cell8" data-cell-id="8" class="cell"></button>
+      <button id="cell9" data-cell-id="9" class="cell"></button>
+    </div>
+    <div class="controls">
+      <div class="buttons">
+
+        <button class="reset-button">
+          <span>Reset Game</span>
+        </button>
+
+      </div>
+
+      <details class="output">
+        <summary>Game Output</summary>
+        <div class="output-content">
+          <p class="output-text">Welcome to Tic Tac Toe!</p>
+          <p class="output-text">Click on a cell to make your move.</p>
         </div>
-        <div class="controls">
-            <div class="buttons">
 
-                <button class="reset-button">
-                    <span>Reset Game</span>
-                </button>
-
-            </div>
-
-            <details class="output">
-                <summary>Game Output</summary>
-                <div class="output-content">
-                    <p class="output-text">Welcome to Tic Tac Toe!</p>
-                    <p class="output-text">Click on a cell to make your move.</p>
-                </div>
-
-            </details>
-        </div>
-    </main>
+      </details>
+    </div>
+  </main>
 
 </body>
 
