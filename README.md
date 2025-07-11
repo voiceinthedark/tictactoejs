@@ -1,6 +1,6 @@
 # tictactoejs (Odin project Javascript course)
 
-A Tic tac toe game in javascript
+A Tic tac toe game in vanilla javascript
 
 ## About the game
 
@@ -16,7 +16,8 @@ To that end we will be relying on javascript module and factory patterns.
 - [x] Create a game module
 - [x] Create a working console game version
 - [x] Create a display module
-- [ ] Create a game loop
-- [ ] Add UI elements for player names
+- [x] Add UI elements for player names
+- [ ] Add History of moves
+- [ ] Add History of matches
 - [ ] Add a computer player
 - [ ] Add a computer player with difficulty levels
