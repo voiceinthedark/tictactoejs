@@ -159,6 +159,26 @@ const displayController = (() => {
       item.setAttribute('disabled', true);
     });
   }
+
+  // reset the game board
+const resetBoard = () => {
+    const boardElement = document.querySelector('.board');
+    const outputElement = document.querySelector('.output');
+    const outputList = outputElement.querySelector('ul');
+    if (outputList) {
+      outputList.innerHTML = ''; // Clear the output list
+    }
+    boardElement.querySelectorAll('.cell').forEach(cell => {
+      cell.textContent = ''; // Clear the cell content
+      cell.removeAttribute('disabled'); // Enable the cells again
+    });
+
+    gameController.resetGame();
+  }
+
+  const resetButton = document.querySelector('.reset-button');
+  resetButton.addEventListener('click', resetBoard);
+
   const boardElement = document.querySelector('.board');
   const outputElement = document.querySelector('.output');
   const outputList = document.createElement('ul');
