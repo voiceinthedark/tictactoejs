@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe JS</title>
     <script type="module" src="index.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="./style.css"/>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
 </head>
+
 <body>
     <main class="container">
         <h1>TicTacToeJs</h1>
@@ -22,15 +24,26 @@
             <button id="cell8" data-cell-id="8" class="cell"></button>
             <button id="cell9" data-cell-id="9" class="cell"></button>
         </div>
-        <details class="output">
-            <summary>Game Output</summary>
-            <div class="output-content">
-                <p class="output-text">Welcome to Tic Tac Toe!</p>
-                <p class="output-text">Click on a cell to make your move.</p>
+        <div class="controls">
+            <div class="buttons">
+
+                <button class="reset-button">
+                    <span>Reset Game</span>
+                </button>
+
             </div>
 
-        </details>
+            <details class="output">
+                <summary>Game Output</summary>
+                <div class="output-content">
+                    <p class="output-text">Welcome to Tic Tac Toe!</p>
+                    <p class="output-text">Click on a cell to make your move.</p>
+                </div>
+
+            </details>
+        </div>
     </main>
-    
+
 </body>
+
 </html>
