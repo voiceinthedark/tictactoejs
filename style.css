@@ -92,3 +92,23 @@ h1 {
 #cell9{
     border-right: 0;
 }
+
+details {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.output{
+    margin-top: 80px;
+    width: 500px;
+    text-align: center;
+    /* border: 3px solid black; */
+    padding: 10px;
+    height: 150px;
+    overflow-y: auto;
+}
+
+.output > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}

@@ -46,11 +46,19 @@ const gameBoard = (() => {
         return gameStatus = true; // Game continues if no winner found
     }
 
+    const getGameStatus = () => {
+        return gameStatus;
+    }
+
+    const getboard = () => {
+        return gameState;
+    }
+
 
 
     return {
-        gameState,
-        gameStatus,
+        getBoard: getboard,
+        getGameStatus,
         checkGameStatus,
         initializeGameState
     };
@@ -80,8 +88,8 @@ const gameController = (() => {
     let currentPlayer; // Default player
 
     const makeAMove = (player, cellIdx) => {
-        if (gameBoard.gameState[cellIdx].getValue() === '') {
-            gameBoard.gameState[cellIdx].setValue(player);
+        if (gameBoard.getBoard()[cellIdx].getValue() === '') {
+            gameBoard.getBoard()[cellIdx].setValue(player);
             // printToConsole();
             gameStatus = gameBoard.checkGameStatus();
             if (gameStatus) {
@@ -98,7 +106,7 @@ const gameController = (() => {
     };
 
     const initializeGame = () => {
-        gameBoard.gameState.forEach(cell => cell.setValue(''));
+        gameBoard.getBoard().forEach(cell => cell.setValue(''));
         gameStatus = true;
         let player1 = new player('Player X', 'X');
         let player2 = new player('Player O', 'O');
@@ -128,9 +136,13 @@ const gameController = (() => {
         return currentPlayer;
     };
 
+    const getGameStatus = () => {
+        return gameStatus;
+    }
+
     return {
         initializeGame,
-        gameStatus,
+        getGameStatus,
         makeAMove,
         resetGame,
         getCurrentPlayer,
@@ -139,22 +151,30 @@ const gameController = (() => {
 
 function printToConsole() {
     console.log('Current Game State:');
-    console.log(gameBoard.gameState.map(cell => cell.getValue()).join(' | '));
+    console.log(gameBoard.getBoard().map(cell => cell.getValue()).join(' | '));
 }
 
 const displayController = (() => {
     const boardElement = document.querySelector('.board');
+    const outputElement = document.querySelector('.output');
+    const outputList = document.createElement('ul');
+    outputElement.appendChild(outputList);
     const boardCells = boardElement.childNodes;
     boardCells.forEach((cell, index) => {
         cell.addEventListener('click', () => {
-            // Use the getter method
             const currentPlayerToken = gameController.getCurrentPlayer();
             console.log(`Current Player: ${currentPlayerToken}`);
             index = +cell.dataset.cellId - 1;
+            const outputListItem = document.createElement('li');
+            // outputListItem.textContent = `Player ${currentPlayerToken} clicked cell ${index + 1}`;
+            // outputList.appendChild(outputListItem);
             console.log(`Player ${currentPlayerToken} clicked cell ${index}`);
             gameController.makeAMove(currentPlayerToken, index);
-            console.log(`Cell ${index} updated with value ${gameBoard.gameState[index].getValue()}`);
-            cell.textContent = gameBoard.gameState[index].getValue();
+            console.log(`Cell ${index} updated with value ${gameBoard.getBoard()[index].getValue()}`);
+            cell.textContent = gameBoard.getBoard()[index].getValue();
+            outputListItem.textContent = `Now it's Player ${gameController.getCurrentPlayer()}'s turn`;
+            outputList.appendChild(outputListItem);
+            outputElement.scrollTop = outputElement.scrollHeight;
         });
     });
 
