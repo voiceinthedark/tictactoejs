@@ -43,6 +43,12 @@ const gameBoard = (() => {
         return gameStatus = false;
       }
     }
+
+    // Check for a Draw
+    if (gameState.every(cell => cell.getValue() !== '')) {
+      console.log('Draw!');
+      return gameStatus = false;
+    }
     return gameStatus = true; // Game continues if no winner found
   }
 
@@ -102,9 +108,9 @@ const gameController = (() => {
       } else if (gameStatus) {
         console.log(`Player ${player.getName()} made a move at cell ${cellIdx}`);
         switchPlayer(player);
-        movesHistory.push({ player: player.getName(), cell: cellIdx})
+        movesHistory.push({ player: player.getName(), cell: cellIdx })
       } else {
-        movesHistory.push({ player: player.getName(), cell: cellIdx})
+        movesHistory.push({ player: player.getName(), cell: cellIdx })
         console.log(`Game Over! Player ${player.getName()} wins!`);
       }
     } else {
@@ -146,7 +152,7 @@ const gameController = (() => {
     return gameStatus;
   }
 
-  const setPlayer1Name = (name) =>{
+  const setPlayer1Name = (name) => {
     player1.changeName(name);
   }
 
@@ -223,26 +229,33 @@ const displayController = (() => {
       console.log(`Current Player: ${currentPlayer.getName()}`);
       index = +cell.dataset.cellId - 1;
       const outputListItem = document.createElement('li');
-      // outputListItem.textContent = `Player ${currentPlayerToken} clicked cell ${index + 1}`;
-      // outputList.appendChild(outputListItem);
       console.log(`Player ${currentPlayer.getName()} clicked cell ${index}`);
       gameController.makeAMove(currentPlayer, index);
       /* HISTORY OF MOVES */
       // Add the latest move to the history
       const lastMove = gameController.getMovesHistory().slice(-1)[0];
       const moveLItem = document.createElement('li');
-      moveLItem.textContent = `${lastMove.player} moved to cell ${lastMove.cell +1}`;
+      moveLItem.textContent = `${lastMove.player} moved to cell ${lastMove.cell + 1}`;
       movesList.appendChild(moveLItem);
+      cell.textContent = gameBoard.getBoard()[index].getValue();
+
 
 
       console.log(`Cell ${index} updated with value ${gameBoard.getBoard()[index].getValue()}`);
-      cell.textContent = gameBoard.getBoard()[index].getValue();
-      outputListItem.textContent = `It's ${gameController.getCurrentPlayer().getName()}'s turn`;
-      outputList.appendChild(outputListItem);
-      outputElement.scrollTop = outputElement.scrollHeight;
-      if (!gameBoard.getGameStatus()) {
+
+      if (!gameBoard.getGameStatus() && !gameBoard.getBoard().every(cell => cell.getValue() !== '')) {
+        updateResult(`Game Over! Player ${currentPlayer.getName()} wins!`);
+      } else if (!gameBoard.getGameStatus()) {
+        updateResult(`It's a Draw!`);
+      } else {
+        outputListItem.textContent = `It's ${gameController.getCurrentPlayer().getName()}'s turn`;
+        outputList.appendChild(outputListItem);
+        outputElement.scrollTop = outputElement.scrollHeight;
+      }
+
+      function updateResult(result_text) {
         const gameOverItem = document.createElement('li');
-        gameOverItem.textContent = `Game Over! Player ${currentPlayer.getName()} wins!`;
+        gameOverItem.textContent = result_text;
         outputList.appendChild(gameOverItem);
         outputElement.scrollTop = outputElement.scrollHeight;
         disableBoard(boardCells);
