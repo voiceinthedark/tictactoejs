@@ -89,6 +89,9 @@ const gameController = (() => {
   const player1 = new player('Player X', 'X');
   const player2 = new player('Player O', 'O');
 
+  // moves history
+  const movesHistory = [];
+
   const makeAMove = (player, cellIdx) => {
     if (gameBoard.getBoard()[cellIdx].getValue() === '') {
       gameBoard.getBoard()[cellIdx].setValue(player.getToken());
@@ -98,6 +101,7 @@ const gameController = (() => {
         console.log(('Draw'));
       } else if (gameStatus) {
         console.log(`Player ${player.getName()} made a move at cell ${cellIdx}`);
+        movesHistory.push({ player: player.getName(), cell: cellIdx})
         switchPlayer(player);
       } else {
         console.log(`Game Over! Player ${player.getName()} wins!`);
@@ -148,10 +152,15 @@ const gameController = (() => {
     player2.changeName(name);
   }
 
+  const getMovesHistory = () => {
+    return movesHistory;
+  }
+
   return {
     initializeGame,
     getGameStatus,
     makeAMove,
+    getMovesHistory,
     resetGame,
     setPlayer1Name,
     setPlayer2Name,
@@ -190,6 +199,8 @@ const displayController = (() => {
 
   const resetButton = document.querySelector('.reset-button');
   resetButton.addEventListener('click', resetBoard);
+
+  const movesList = document.querySelector('.moves');
 
   const boardElement = document.querySelector('.board');
   const outputElement = document.querySelector('.output');
