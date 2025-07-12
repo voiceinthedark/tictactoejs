@@ -123,6 +123,7 @@ const gameController = (() => {
     gameBoard.initializeGameState();
     gameStatus = true;
     console.log('Game reset');
+    clearMovesHistory();
   };
 
   // Switch player input
@@ -156,11 +157,16 @@ const gameController = (() => {
     return movesHistory;
   }
 
+  const clearMovesHistory = () => {
+    movesHistory.length = 0;
+  }
+
   return {
     initializeGame,
     getGameStatus,
     makeAMove,
     getMovesHistory,
+    clearMovesHistory,
     resetGame,
     setPlayer1Name,
     setPlayer2Name,
@@ -195,6 +201,9 @@ const displayController = (() => {
     });
 
     gameController.resetGame();
+    // Reset moves history display
+    const movesList = document.querySelector('.moves');
+    movesList.innerHTML = ''; // Clear the moves history
   }
 
   const resetButton = document.querySelector('.reset-button');
@@ -217,9 +226,17 @@ const displayController = (() => {
       // outputList.appendChild(outputListItem);
       console.log(`Player ${currentPlayer.getName()} clicked cell ${index}`);
       gameController.makeAMove(currentPlayer, index);
+      /* HISTORY OF MOVES */
+      // Add the latest move to the history
+      const lastMove = gameController.getMovesHistory().slice(-1)[0];
+      const moveLItem = document.createElement('li');
+      moveLItem.textContent = `${lastMove.player} moved to cell ${lastMove.cell +1}`;
+      movesList.appendChild(moveLItem);
+
+
       console.log(`Cell ${index} updated with value ${gameBoard.getBoard()[index].getValue()}`);
       cell.textContent = gameBoard.getBoard()[index].getValue();
-      outputListItem.textContent = `Now it's Player ${gameController.getCurrentPlayer().getName()}'s turn`;
+      outputListItem.textContent = `It's ${gameController.getCurrentPlayer().getName()}'s turn`;
       outputList.appendChild(outputListItem);
       outputElement.scrollTop = outputElement.scrollHeight;
       if (!gameBoard.getGameStatus()) {
