@@ -3,6 +3,7 @@
 :root {
   --bg-color-main: antiquewhite;
   --font: 'Roboto', sans-serif;
+  --bg-color-history: rgba(232, 203, 193, 0.5);
 }
 
 *,
@@ -137,7 +138,8 @@ h1 {
   grid-area: history;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  justify-content: flex-start;
+  align-items: center;
   height: 100%;
   padding: 5px 8px;
 
@@ -145,7 +147,20 @@ h1 {
     font-family: serif;
   }
 
+  .moves-section{
+    width: 100%;
+
+    h4{
+      margin: 0;
+    }
+  }
+
   .history-moves{
+    padding: 5px;
+    background-color: var(--bg-color-history);
+    width: 90%;
+    height: 250px;
+    border-radius: 5px;
     
     ul{
       list-style: none;
