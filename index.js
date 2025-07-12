@@ -101,9 +101,10 @@ const gameController = (() => {
         console.log(('Draw'));
       } else if (gameStatus) {
         console.log(`Player ${player.getName()} made a move at cell ${cellIdx}`);
-        movesHistory.push({ player: player.getName(), cell: cellIdx})
         switchPlayer(player);
+        movesHistory.push({ player: player.getName(), cell: cellIdx})
       } else {
+        movesHistory.push({ player: player.getName(), cell: cellIdx})
         console.log(`Game Over! Player ${player.getName()} wins!`);
       }
     } else {
