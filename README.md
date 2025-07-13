@@ -16,7 +16,7 @@ To that end we will be relying on javascript module and factory patterns.
 - [x] Create a game module
 - [x] Create a working console game version
 - [x] Create a display module
-- [ ] Add History of moves
+- [x] Add History of moves
 - [ ] Add history of matches
 - [x] Add UI elements for player names
 - [ ] Add a computer player
